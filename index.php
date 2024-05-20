@@ -16,7 +16,7 @@ else{
 // init configuration
 $clientID = '';
 $clientSecret =''; 
-$redirectUri = 'http://localhost/codigos/trabajodegrado/trabajodegrado/index';
+$redirectUri = 'http://http://localhost/codigos/proyecto.2/index';
 
 // create Client Request to access Google API
 $client = new Google_Client();
@@ -92,7 +92,7 @@ if (isset($_GET['code'])) {
                 class="bg-white form-sign-up shadow-md rounded px-8 pt-6 pb-10 mb-4  truncate">
 
                 <div class="logo flex justify-center mb-5">
-                    <img draggable="false" src="assets/images/logo_sm.png" alt="" width="130px">
+                    <img draggable="false" src="assets/images/logo-dark.png" alt="" width="200px">
 
                 </div>
                 <div class="mb-4">
