@@ -131,9 +131,9 @@ $pypactive = true;
                                     <div class="w-100 text-center">
                                         <img src="../assets/images/layouts/not-found.png" width="200" alt="">
                                         <h4>No hay listas en este modulo</h4>
-                                        <p>Agregue una nueva en la pagina de Listas</p>
+                                        <p>Pongase en contacto con el administrador si existe algun error.</p>
 
-                                        <a href="listas" class="btn btn-success">Agregar</a>
+                                        
                                     </div>
                                     <?php } ?>
                                 </div>

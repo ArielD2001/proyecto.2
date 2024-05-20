@@ -32,7 +32,16 @@
 
 
        
-    } 
+    } else if($_GET['user']){
+        $user = base64_decode($_GET['user']);
+
+
+        //se realiza la consulta para eliminar los estudiantes de la lista
+        $consultau = "DELETE  from usuarios WHERE id =?";
+        $sentenciau = $mbd->prepare($consultau);
+        $sentenciau->bindParam(1, $user);
+        $sentenciau->execute();
+    }
     else {
 
         //Se redirecciona a la pagina de listas

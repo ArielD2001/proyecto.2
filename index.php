@@ -14,9 +14,9 @@ if(isset($_SESSION['id'])){
 else{
     
 // init configuration
-$clientID = '';
-$clientSecret =''; 
-$redirectUri = 'http://http://localhost/codigos/proyecto.2/index';
+$clientID = '181763698264-8k0s1odm3jglvo4urbsqtauk9pghdusq.apps.googleusercontent.com';
+$clientSecret ='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'; 
+$redirectUri = 'http://localhost/codigos/proyecto.2/index';
 
 // create Client Request to access Google API
 $client = new Google_Client();

@@ -38,9 +38,9 @@
                 </div>
             </td>
             <td class="text-center">
+            <a href="user=<?php echo base64_encode($usuario['id']) ?>" id="button-delete-list" class="text-danger btn border eliminar-btn"><i class="mdi mdi-delete"></i></a>
                 
-            <button  id="button-delete-user" class="text-danger btn border "><i class="mdi mdi-delete"></i></button>
-            </td>
+            </td>       
         </tr>
         <?php 
                     }
