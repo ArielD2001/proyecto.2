@@ -93,8 +93,8 @@ if (isset($_GET['lista'])) {
                             ?>
                                 <nav aria-label="breadcrumb">
                                     <ol class="breadcrumb mb-0">
-                                        <li class="breadcrumb-item active">Listas</li>
-                                        <li class="breadcrumb-item active" aria-current="page">
+                                        <li class="breadcrumb-item active"><a href="./listas.php" class="text-secondary" >Listas</a></li>
+                                        <li class="breadcrumb-item active text-secondary" aria-current="page" >
                                             <?php echo $modulo['nombre'] ?></li>
                                         <li class="breadcrumb-item text-primary" aria-current="page">
                                             <?php echo $datal['nombre'] ?></li>

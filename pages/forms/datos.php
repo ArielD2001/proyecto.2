@@ -12,20 +12,37 @@ if (!$_SESSION) {
     die();
 } else {
 
-    //Si existe la sesion se toman los datos del usuario
-    $idglobal = isset($_SESSION['admin']) ? $_SESSION['admin'] : $_SESSION['id'];
+   if(isset($_SESSION['id'])){
+     //Si existe la sesion se toman los datos del usuario
+     $idglobal = $_SESSION['id'];
 
-    //Informacion del Usuario (Profesor)
-    $consulta = "SELECT * from usuarios WHERE id = ?";
-    $sentencia = $mbd->prepare($consulta);
-    $sentencia->bindParam(1, $idglobal);
-    $sentencia->execute();
-    $filas = $sentencia->rowCount();
+     //Informacion del Usuario (Profesor)
+     $consulta = "SELECT * from usuarios WHERE id = ?";
+     $sentencia = $mbd->prepare($consulta);
+     $sentencia->bindParam(1, $idglobal);
+     $sentencia->execute();
+     $filas = $sentencia->rowCount();
+ 
+ 
+     $resultado = $sentencia->fetch();
+     $nombre  = $resultado['nombre'];
+     $apellido  = $resultado['apellido'];
+   }else if(isset($_SESSION['admin'])){
+     //Si existe la sesion se toman los datos del usuario
+     $idglobal = $_SESSION['admin'];
 
-
-    $resultado = $sentencia->fetch();
-    $nombre  = $resultado['nombre'];
-    $apellido  = $resultado['apellido'];
+     //Informacion del Usuario (Profesor)
+     $consulta = "SELECT * from usuarios WHERE id = ?";
+     $sentencia = $mbd->prepare($consulta);
+     $sentencia->bindParam(1, $idglobal);
+     $sentencia->execute();
+     $filas = $sentencia->rowCount();
+ 
+ 
+     $resultado = $sentencia->fetch();
+     $nombre  = $resultado['nombre'];
+     $apellido  = $resultado['apellido'];
+   }
 }
 
 
@@ -33,6 +50,13 @@ if (!$_SESSION) {
 if(isset($_GET)){
     $ide = base64_decode($_GET['student']);
     $idl = base64_decode($_GET['list']);
+
+    $re = "SELECT * FROM respuestas WHERE id_estudiante = ?";
+    $sentenciar = $mbd->prepare($re);
+    $sentenciar->bindParam(1,$ide);
+    $sentenciar->execute();
+    $respu = $sentenciar->fetch();
+
 
     //informacion del estudiante para mostrar en el fomulario
     $consultaestudiante = "SELECT * FROM estudiantes WHERE id = ?";
@@ -60,10 +84,20 @@ if(isset($_GET)){
 
     //Se valida si se va utilizar un formulario que se divide en rotaciones
     if(isset($_GET['r'])){
-
+        
+        
         //Numero de la rotacion enviada por GET
         $rotacion = $_GET['r'];
         
+        $re = "SELECT * FROM respuestas WHERE id_estudiante = ? AND rotacion = ? AND id_lista = ?";
+        $sentenciar = $mbd->prepare($re);
+        $sentenciar->bindParam(1,$ide);
+        $sentenciar->bindParam(2,$rotacion);
+        $sentenciar->bindParam(3,$idl);
+        $sentenciar->execute();
+        $cr =  $sentenciar->rowCount();
+        $respu = $sentenciar->fetch();
+
         //Datos de la calificacion de la rotacion correspondiente
         $consultanota = "SELECT * FROM $preguntas WHERE id_estudiante = ? AND rotacion = ?";
         $sentencianota = $mbd->prepare($consultanota);
@@ -82,6 +116,13 @@ if(isset($_GET)){
         $notat = $sentencianotat->fetch();
 
     }else{
+        $re = "SELECT * FROM respuestas WHERE id_estudiante = ? AND id_lista = ?";
+        $sentenciar = $mbd->prepare($re);
+        $sentenciar->bindParam(1,$ide);
+        $sentenciar->bindParam(2,$idl);
+        $sentenciar->execute();
+        $cr =  $sentenciar->rowCount();
+        $respu = $sentenciar->fetch();
 
         //Si no es de un formulario de rotaciones solo se extrae la informacion de las notas del formulario
         $consultanota = "SELECT * FROM $preguntas WHERE id_estudiante = ?";
