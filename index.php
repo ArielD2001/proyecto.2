@@ -68,6 +68,27 @@ if (isset($_GET['code'])) {
    
     // now you can use this profile info to create account in your website and make user logged in.
 } else{
+
+    // Google reCaptcha secret key
+$secretKey  = "6LdupyMrAAAAAJypyjinpRLTzz6nRwS2t9pXveZ2";
+
+$statusMsg = '';
+if(isset($_POST['boton'])){
+    if(isset($_POST['captcha-response']) && !empty($_POST['captcha-response'])){
+        // Get verify response data
+        $verifyResponse = file_get_contents('https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey.'&response='.$_POST['captcha-response']);
+        $responseData = json_decode($verifyResponse);
+        if($responseData->success){
+            //Contact form submission code goes here ...
+  
+            $statusMsg = 'Your contact request have submitted successfully.';
+        }else{
+            $statusMsg = 'Robot verification failed, please try again.';
+        }
+    }else{
+        $statusMsg = 'Robot verification failed, please try again.';
+    }
+}
 ?>
 <!DOCTYPE html>
 <html lang="es">
@@ -82,11 +103,20 @@ if (isset($_GET['code'])) {
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href="https://unpkg.com/tailwindcss@^1.0/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="assets/css/index.css">
+    <script src="https://www.google.com/recaptcha/api.js?onload=onloadCallback" async defer></script>
     <title>Login</title>
 </head>
 
 <body>
+<script>
+var onloadCallback = function() {
+    grecaptcha.execute();
+};
 
+function setResponse(response) { 
+    document.getElementById('captcha-response').value = response; 
+}
+</script>
     <div class=" flex items-center justify-center h-screen bg-gray-200">
         <div class="" style="z-index: 100;">
             <form id="formulario-login" method="post"
@@ -122,11 +152,17 @@ if (isset($_GET['code'])) {
                         type="button" name="boton">
                         Iniciar sesion
                     </button>
+                    
                     <a href="<?php echo $client->createAuthUrl() ?>"> <button
                             class=" transition  duration-100 mt-2 text-white hover:bg-gray-900 block border  w-full  py-2 px-4 rounded focus:outline-none bg-gray-800  "
                             type="button">
                             <i class="fa-brands fa-google mr-2"></i>Iniciar sesion con Google
                         </button> </a>
+
+                         <!-- Google reCAPTCHA widget -->
+    
+    
+                        <input type="hidden" id="captcha-response" name="captcha-response" />
                     <!-- <div class="block text-center my-2 text-xs">Or</div>
                         <a href="singup" class="bg-blue-600 block rounded p-2 text-white text-center hover:bg-blue-700 transition duration-100">Crear cuenta</a> -->
                 </div>
@@ -138,15 +174,18 @@ if (isset($_GET['code'])) {
                 Ariel Caraballo Diaz - Jesus Valencia Torres
             </p>
             <p class="text-center text-gray-700 text-xs">
-                &copy;2022 CURN - Proyecto de grado VI semestr e.
+                &copy;2025 CURN - Proyecto de grado VI semestre.
             </p>
+            <div class="g-recaptcha" data-sitekey="6LdupyMrAAAAAJz9olefw3_52sHrMOjpxQWt6MX2" data-badge="inline" data-size="invisible" data-callback="setResponse"></div>
         </div>
+        
     </div>
     <img src="assets/images/svg.png" draggable="false" alt=""
         style="position: absolute !important; bottom:0; width:100% ">
     <script src="assets/js/jquery.min.js"></script>
 
     <script src="assets/js/index.js"></script>
+    
 </body>
 
 </html>
